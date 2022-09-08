@@ -1,10 +1,8 @@
 /** @param {NS} ns */
-export async function main(ns, server, minCurrency, maxlevel) {
-	ns.disableLog('getServerMoneyAvailable');
-	ns.disableLog('getServerSecurityLevel');
-
-	var minCurrency = minCurrency || ns.getServerMoneyAvailable(server);
-	var maxlevel = maxlevel || ns.getServerSecurityLevel(server);
+export async function main(ns) {
+	const data = ns.flags();
+	ns.tprint(data);
+	const { server, minCurrency, maxlevel } = data;
 	
 	while (true) {
 		var currency = ns.getServerMoneyAvailable(server);
