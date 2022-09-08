@@ -12,12 +12,6 @@ function setupConfig(ns) {
     const minSecurityLevel = ns.getServerMinSecurityLevel(server)
     const maxMoney = ns.getServerMaxMoney(server)
 
-    log(`
-        Server name: ${server}
-        Server minimum security level: ${minSecurityLevel}
-        Server max money: ${maxMoney}
-    `)
-
     return { server, minSecurityLevel, maxMoney }
 }
 
@@ -33,6 +27,12 @@ export async function main(ns) {
     }
 
     const { server, minSecurityLevel, maxMoney } = setupConfig(ns)
+
+    log(`
+        Server name: ${server}
+        Server minimum security level: ${minSecurityLevel}
+        Server max money: ${maxMoney}
+    `)
 
     // Run endless hack
 	while (true) {
