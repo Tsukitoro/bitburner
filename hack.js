@@ -1,19 +1,14 @@
-/** @param {NS} ns */
-export async function main(ns) {
-	// Loggin
-	ns.disableLog('getServerMoneyAvailable');
+function removeLogs(ns) {
+    ns.disableLog('getServerMoneyAvailable');
 	ns.disableLog('getServerSecurityLevel');
 	ns.disableLog('getServerMinSecurityLevel');
 	ns.disableLog('getServerMaxMoney');
+}
 
-    function log(message) {
-        ns.print(`
-            ${message}
-        `)
-    }
-
-    // Config
-    const server = ns.getHostname()
+function setupConfig(ns) {
+    var { server } = ns.flags([
+		['server', ns.getHostname()]
+	]);
     const minSecurityLevel = ns.getServerMinSecurityLevel(server)
     const maxMoney = ns.getServerMaxMoney(server)
 
@@ -22,6 +17,22 @@ export async function main(ns) {
         Server minimum security level: ${minSecurityLevel}
         Server max money: ${maxMoney}
     `)
+
+    return { server, minSecurityLevel, maxMoney }
+}
+
+/** @param {NS} ns */
+export async function main(ns) {
+	// Loggin
+	removeLogs(ns)
+
+    function log(message) {
+        ns.print(`
+            ${message}
+        `)
+    }
+
+    const { server, minSecurityLevel, maxMoney } = setupConfig(ns)
 
     // Run endless hack
 	while (true) {
