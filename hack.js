@@ -6,11 +6,16 @@ function removeLogs(ns) {
 }
 
 function setupConfig(ns) {
-    var { server } = ns.flags([
-		['server', ns.getHostname()]
+    var { server, grow } = ns.flags([
+		['server', ns.getHostname()],
+		['grow', 1]
 	]);
-    const minSecurityLevel = ns.getServerMinSecurityLevel(server)
-    const maxMoney = ns.getServerMaxMoney(server)
+    const minSecurityLevel = grow
+		? ns.getServerMinSecurityLevel(server)
+		: ns.getServerSecurityLevel(server)
+    const maxMoney = grow
+		? ns.getServerMaxMoney(server)
+		: ns.getServerMoneyAvailable(server)
 
     return { server, minSecurityLevel, maxMoney }
 }
