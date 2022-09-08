@@ -6,12 +6,18 @@ export async function main(ns) {
 	ns.disableLog('getServerMinSecurityLevel');
 	ns.disableLog('getServerMaxMoney');
 
+    function log(message) {
+        ns.print(`
+            ${message}
+        `)
+    }
+
     // Config
     const server = ns.getHostname()
     const minSecurityLevel = ns.getServerMinSecurityLevel(server)
     const maxMoney = ns.getServerMaxMoney(server)
 
-    ns.print(`
+    log(`
         Server name: ${server}
         Server minimum security level: ${minSecurityLevel}
         Server max money: ${maxMoney}
@@ -20,16 +26,23 @@ export async function main(ns) {
     // Run endless hack
 	while (true) {
 		if (ns.getServerSecurityLevel(server) > minSecurityLevel) {
-			ns.print('Weaking server...')
+			log('Weaking server...')
+
             await ns.weaken(server);
-			ns.print(`ServerSecurityLevel: ${ns.getServerSecurityLevel(server)}`)
+
+			log(`ServerSecurityLevel: ${ns.getServerSecurityLevel(server)}`)
 		} else if (ns.getServerMoneyAvailable(server) < maxMoney) {
-			ns.print('Adding currency...')
+			log('Adding currency...')
+
 			await ns.grow(server);
-			ns.print(`Server currency: ${ns.getServerMoneyAvailable(server)}`)
+            
+			log(`Server currency: ${ns.getServerMoneyAvailable(server)}`)
 		} else {
+            log('Hacking...')
+
 			var gotMoney = await ns.hack(server);
-			ns.print(`Hacked money: ${gotMoney}`)
+            
+			log(`Hacked money: ${gotMoney}`)
 		}
 	}
 }
